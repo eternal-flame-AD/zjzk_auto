@@ -29,6 +29,8 @@ def find_walkshop(im):
         for y in range(400,800):
             if pixel_match(im,x,y,87,181,161,3):
                 print(x,y)
+                fn="WALKSHOPat"+x+" "+y+".png"
+                im.save(fn)
                 return True
     return False
 
