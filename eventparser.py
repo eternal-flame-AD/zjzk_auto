@@ -25,8 +25,7 @@ def find_walkshop(im):
             if pixel_match(im,x,y,87,181,161,3):
                 count+=1
     if count>5:
-        print(x,y)
-        fn="WALKSHOPat"+str(x)+" "+str(y)+".png"
+        fn="WALKSHOP.png"
         im.save(fn)
         return True
     return False
