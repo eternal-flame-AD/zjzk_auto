@@ -120,7 +120,7 @@ def main():
             doevent.start_war()
         else:
             failcount+=1
-            if failcount==5:
+            if failcount==10:
                 dump_eventparser(im)
                 im.close()
                 raise RuntimeError("Failed to parse image!!!")
