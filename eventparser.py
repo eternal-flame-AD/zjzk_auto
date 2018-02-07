@@ -19,13 +19,16 @@ def pixel_match(im,target_x,target_y,target_r,target_g,target_b,diff,debug=False
 def find_walkshop(im):
     if not in_fight(im):
         return False
+    count=0
     for x in range(0,1920):
         for y in range(400,800):
             if pixel_match(im,x,y,87,181,161,3):
-                print(x,y)
-                fn="WALKSHOPat"+str(x)+" "+str(y)+".png"
-                im.save(fn)
-                return True
+                count+=1
+    if count>5:
+        print(x,y)
+        fn="WALKSHOPat"+str(x)+" "+str(y)+".png"
+        im.save(fn)
+        return True
     return False
 
 def is_line(im,x1,x2,y1,y2,r=0,g=0,b=0,diff=0):
