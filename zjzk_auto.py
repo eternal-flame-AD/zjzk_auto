@@ -128,4 +128,5 @@ def main():
                 continue
         failcount=0
         im.close()
+        time.sleep(1)
 main()
