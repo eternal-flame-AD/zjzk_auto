@@ -111,6 +111,7 @@ def main():
             elif eventparser.in_main(im):
                 doevent.enter_mode_selection()
             elif eventparser.in_mode_selection(im):
+                softchange=False
                 chal1_selected=False
                 chal2_selected=False
                 doevent.select_mode(mode)
@@ -130,7 +131,6 @@ def main():
                 x=eventparser.determine_win_type(im)
                 if softchange or (x==2):
                     doevent.go_back()
-                    softchange=False
                 elif x>=0:
                     doevent.rematch()
             elif eventparser.in_player_selection(im):
