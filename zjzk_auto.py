@@ -25,29 +25,36 @@ def dump_eventparser(im):
     print('player_selection: ',eventparser.in_player_selection(im))
 
 def do_screenshot():
-    global need_resize,need_rotate,height,width
+    global need_resize,need_rotate,height,width,want_main_menu
     screenshot.pull_screenshot()
     try:
         im = Image.open('./autojump.png')
         success=True
+    except KeyboardInterrupt:
+        want_main_menu=True
     except:
         success=False
         try:
             screenshot.pull_screenshot()
             im = Image.open('./autojump.png')
             success=True
+        except KeyboardInterrupt:
+            want_main_menu=True
         except:
-            print("screenshot_error")
-    if success:
-        if need_rotate:
-            print("Rotating...",end=" ")
-            im=im.transpose(Image.ROTATE_90)
-            width=width+height
-            height=width-height
-            width=width-height
-        if need_resize:
-            print("Resizing...",end=" ")
-            im=im.resize((1080,1920))
+            raise RuntimeError("screenshot_error")
+    try:
+        if success:
+            if need_rotate:
+                print("Rotating...",end=" ")
+                im=im.transpose(Image.ROTATE_90)
+                width=width+height
+                height=width-height
+                width=width-height
+            if need_resize:
+                print("Resizing...",end=" ")
+                im=im.resize((1080,1920))
+    except KeyboardInterrupt:
+        want_main_menu=True
     return im
 
 def init():
@@ -84,6 +91,7 @@ def ask_chal():
     return mode,chal1,chal2
 
 def main():
+    want_main_menu=False
     debug=False
     softchange=False
     init()
@@ -141,6 +149,8 @@ def main():
             failcount=0
             im.close()
             time.sleep(1)
+            if want_main_menu:
+                raise KeyboardInterrupt
         except KeyboardInterrupt:
             op=intmenu.show_menu()
             if op==1:

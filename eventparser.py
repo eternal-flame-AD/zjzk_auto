@@ -8,13 +8,7 @@ def pixel_match(im,target_x,target_y,target_r,target_g,target_b,diff,debug=False
     pixel=im_pixel[target_x,target_y]
         old method
     """
-    try:
-        pixel=im.getpixel((target_x,target_y))
-    except:
-        print("ERROR:Out of image range")
-        print("x=",target_x,' y=',target_y)
-        print("image size:",im.size)
-        raise RuntimeError("ERROR:Out of image range")
+    pixel=im.getpixel((target_x,target_y))
     if debug:
         print([target_x,target_y],pixel,[target_r,target_g,target_b])
     if abs(pixel[0]-target_r)+abs(pixel[1]-target_g)+abs(pixel[2]-target_b)<=diff:
