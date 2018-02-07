@@ -25,7 +25,6 @@ def dump_eventparser(im):
 
 def do_screenshot():
     global need_resize,need_rotate,height,width
-    print("Pull_screenshot...")
     screenshot.pull_screenshot()
     try:
         im = Image.open('./autojump.png')
