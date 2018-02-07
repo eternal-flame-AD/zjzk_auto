@@ -25,7 +25,7 @@ def dump_eventparser(im):
     print('player_selection: ',eventparser.in_player_selection(im))
 
 def do_screenshot():
-    global need_resize,need_rotate,height,width,want_main_menu
+    global need_resize,need_rotate,want_main_menu
     screenshot.pull_screenshot()
     try:
         im = Image.open('./autojump.png')
@@ -47,9 +47,6 @@ def do_screenshot():
             if need_rotate:
                 print("Rotating...",end=" ")
                 im=im.transpose(Image.ROTATE_90)
-                width=width+height
-                height=width-height
-                width=width-height
             if need_resize:
                 print("Resizing...",end=" ")
                 im=im.resize((1080,1920))
