@@ -147,6 +147,7 @@ def main():
             im.close()
             time.sleep(1)
             if want_main_menu:
+                want_main_menu=False
                 raise KeyboardInterrupt
         except KeyboardInterrupt:
             op=intmenu.show_menu()
