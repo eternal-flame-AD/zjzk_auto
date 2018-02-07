@@ -114,7 +114,9 @@ def determine_win_type(im):
         return 0
     if pixel_match(im,1266,926,178,175,32,10):
         return 1
-    return 2
+    if pixel_match(im,1672,942,210,125,74,6):
+        return 2
+    return -1
 
 def in_win_splash(im):
     return pixel_match(im,924,177,255,181,68,3) and pixel_match(im,888,185,255,181,68,3) and pixel_match(im,906,173,8,7,3,6)

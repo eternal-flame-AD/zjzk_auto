@@ -114,7 +114,7 @@ def main():
             x=eventparser.determine_win_type(im)
             if x==2:
                 doevent.go_back()
-            else:
+            elif x>0:
                 doevent.rematch()
         elif eventparser.in_player_selection(im):
             doevent.start_war()
