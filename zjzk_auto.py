@@ -9,6 +9,7 @@ from PIL import Image
 from common import screenshot
 import eventparser
 import doevent
+import intmenu
 
 def dump_eventparser(im):
     print('walkshop: ',eventparser.find_walkshop(im))
@@ -71,61 +72,85 @@ def init():
     width=width/1920
     height=height/1080
 
+def ask_chal():
+    mode=0
+    chal1=0
+    chal2=0
+    while not((mode in range(1,5)) and (chal1 in range(1,4)) and (chal2 in range(1,8))):
+        mode=int(input("mode(1-4)?"))
+        chal1=int(input("challenge_1(1-3)?"))
+        chal2=int(input("challenge_2(1-7)?"))
+    print("ACCEPTED")
+    return mode,chal1,chal2
+
 def main():
     debug=False
+    softchange=False
     init()
     im=do_screenshot()
     dump_eventparser(im)
-    mode=int(input("mode(1-4)?"))
-    chal1=int(input("challenge_1(1-3)?"))
-    chal2=int(input("challenge_2(1-7)?"))
+    mode,chal1,chal2=ask_chal()
     chal1_selected=False
     chal2_selected=False
     failcount=0
     while True:
-        im=do_screenshot()
-        if debug:
-            dump_eventparser(im)
-        if eventparser.in_fight(im):
-            if eventparser.find_walkshop(im):
-                print("WALKSHOP!!!!!!")
-        elif eventparser.in_loading_screen(im):
-            continue
-        elif eventparser.in_main(im):
-            doevent.enter_mode_selection()
-        elif eventparser.in_mode_selection(im):
-            chal1_selected=False
-            chal2_selected=False
-            doevent.select_mode(mode)
-        elif eventparser.in_challenge_selection(im):
-            if not chal1_selected:
-                chal1_selected=True
-                doevent.select_challenge_1(chal1)
-            elif not chal2_selected:
-                chal2_selected=True
-                doevent.select_challenge_2(chal2)
-            else:
-                doevent.start_challenge(im)
-        elif eventparser.in_win_presplash(im):
-            if eventparser.win_presplash_ready(im):
-                doevent.anykey()
-        elif eventparser.in_win_splash(im):
-            x=eventparser.determine_win_type(im)
-            if x==2:
-                doevent.go_back()
-            elif x>=0:
-                doevent.rematch()
-        elif eventparser.in_player_selection(im):
-            doevent.start_war()
-        else:
-            failcount+=1
-            if failcount==10:
+        try:
+            im=do_screenshot()
+            if debug:
                 dump_eventparser(im)
-                im.close()
-                raise RuntimeError("Failed to parse image!!!")
-            else:
+            if eventparser.in_fight(im):
+                if eventparser.find_walkshop(im):
+                    print("WALKSHOP!!!!!!")
+            elif eventparser.in_loading_screen(im):
                 continue
-        failcount=0
-        im.close()
-        time.sleep(1)
+            elif eventparser.in_main(im):
+                doevent.enter_mode_selection()
+            elif eventparser.in_mode_selection(im):
+                chal1_selected=False
+                chal2_selected=False
+                doevent.select_mode(mode)
+            elif eventparser.in_challenge_selection(im):
+                if not chal1_selected:
+                    chal1_selected=True
+                    doevent.select_challenge_1(chal1)
+                elif not chal2_selected:
+                    chal2_selected=True
+                    doevent.select_challenge_2(chal2)
+                else:
+                    doevent.start_challenge(im)
+            elif eventparser.in_win_presplash(im):
+                if eventparser.win_presplash_ready(im):
+                    doevent.anykey()
+            elif eventparser.in_win_splash(im):
+                x=eventparser.determine_win_type(im)
+                if softchange or (x==2):
+                    doevent.go_back()
+                    softchange=False
+                elif x>=0:
+                    doevent.rematch()
+            elif eventparser.in_player_selection(im):
+                doevent.start_war()
+            else:
+                failcount+=1
+                if failcount==10:
+                    dump_eventparser(im)
+                    im.close()
+                    raise RuntimeError("Failed to parse image!!!")
+                else:
+                    continue
+            failcount=0
+            im.close()
+            time.sleep(1)
+        except KeyboardInterrupt:
+            op=intmenu.show_menu()
+            if op==1:
+                print("Bye...")
+                raise SystemExit("USER INTERRUPT")
+            elif op==2:
+                print("Change will take place in next battle.")
+                mode,chal1,chal2=ask_chal()
+                chal1_selected=False
+                chal2_selected=False
+                softchange=True
+        continue
 main()
