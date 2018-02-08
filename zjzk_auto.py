@@ -32,6 +32,8 @@ def do_screenshot():
         success=True
     except KeyboardInterrupt:
         want_main_menu=True
+        im = screenshot.pull_screenshot()
+        success=True
     except:
         print("Fail fallback...")
         success=False
@@ -42,16 +44,13 @@ def do_screenshot():
             want_main_menu=True
         except:
             raise RuntimeError("screenshot_error")
-    try:
-        if success:
-            if need_rotate:
-                print("Rotating...",end=" ")
-                im=im.transpose(Image.ROTATE_90)
-            if need_resize:
-                print("Resizing...",end=" ")
-                im=im.resize((1080,1920))
-    except KeyboardInterrupt:
-        want_main_menu=True
+    if success:
+        if need_rotate:
+            print("Rotating...",end=" ")
+            im=im.transpose(Image.ROTATE_90)
+        if need_resize:
+            print("Resizing...",end=" ")
+            im=im.resize((1080,1920))
     return im
 
 def init():
@@ -166,8 +165,7 @@ def main():
         except KeyboardInterrupt:
             op=intmenu.show_menu()
             if op==1:
-                print("Bye...")
-                raise SystemExit("USER INTERRUPT")
+                raise SystemExit("bye...")
             elif op==2:
                 print("Change will take place in next battle.")
                 mode,chal1,chal2=ask_chal()
