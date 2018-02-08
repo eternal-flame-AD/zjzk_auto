@@ -39,7 +39,7 @@ def swipe(px,py,deltax,time=1000,need_resize=False,width=1,height=1,debug=False)
     subprocess.Popen(cmd, startupinfo=si)
 
 def rematch():
-    tap(1192+drift(),873+drift())
+    tap(1030+drift(),873+drift())
 
 def enter_mode_selection():
     tap(1743+drift(),901+drift())
@@ -52,19 +52,31 @@ def select_mode(x):
     elif x==3:
         tap(846+drift(),337+drift())
     elif x==4:
-        tap(1592+drift(),447+drift())
+        tap(1240+drift(),447+drift())
     else:
         raise RuntimeError("Illegal mode!")
 
-def select_challenge_1(x):
-    if x==1:
-        tap(732+drift(),942+drift())
-    elif x==2:
-        tap(915+drift(),942+drift())
-    elif x==3:
-        tap(1096+drift(),942+drift())
-    else:
-        raise RuntimeError('Illegal challgenge 1')
+def select_challenge_1(x,mode):
+    if (mode==1 or mode==2):
+        if x==1:
+            tap(732+drift(),942+drift())
+        elif x==2:
+            tap(915+drift(),942+drift())
+        elif x==3:
+            tap(1096+drift(),942+drift())
+        else:
+            raise RuntimeError('Illegal challgenge 1')
+    elif mode==4:
+        if x==1:
+            tap(661+drift(),977+drift())
+        elif x==2:
+            tap(837+drift(),967+drift())
+        elif x==3:
+            tap(1025+drift(),976+drift())
+        elif x==4:
+            tap(1201+drift(),986+drift())
+        else:
+            raise RuntimeError('Illegal challgenge 1')
 
 def select_challenge_2(x):
     swipe(100,300+drift(),1000)
@@ -77,7 +89,7 @@ def select_challenge_2(x):
 
 def start_challenge(im):
     x,y=eventparser.find_start_button(im)
-    tap(x,y)
+    tap(x+drift(),y+drift())
 
 def anykey():
     tap(random.uniform(100,1000),random.uniform(100,1000))

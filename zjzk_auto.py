@@ -76,14 +76,26 @@ def init():
     width=width/1920
     height=height/1080
 
+def validchal(mode,chal1,chal2):
+    if mode==1:
+        return (chal1 in range(1,4) and chal2 in range(1,8))
+    elif mode==2:
+        return (chal1 in range(1,4) and chal2 in range(1,8))
+    elif mode==3:
+        return (chal2 in range(1,11))
+    elif mode==4:
+        return (chal1 in range(1,5) and chal2 in range(1,11))
+    return False
+
 def ask_chal():
     mode=0
     chal1=0
     chal2=0
-    while not((mode in range(1,5)) and (chal1 in range(1,4)) and (chal2 in range(1,8))):
-        mode=int(input("mode(1-4)?"))
-        chal1=int(input("challenge_1(1-3)?"))
-        chal2=int(input("challenge_2(1-7)?"))
+    while not(validchal(mode,chal1,chal2)):
+        mode=int(input("mode?"))
+        if mode!=3:
+            chal1=int(input("challenge_1?"))
+        chal2=int(input("challenge_2?"))
     print("ACCEPTED")
     return mode,chal1,chal2
 
@@ -118,7 +130,7 @@ def main():
             elif eventparser.in_challenge_selection(im):
                 if not chal1_selected:
                     chal1_selected=True
-                    doevent.select_challenge_1(chal1)
+                    doevent.select_challenge_1(chal1,mode)
                 elif not chal2_selected:
                     chal2_selected=True
                     doevent.select_challenge_2(chal2)
