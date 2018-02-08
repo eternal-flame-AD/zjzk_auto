@@ -2,6 +2,7 @@ import random
 import subprocess
 import eventparser
 import time
+from common import screenshot
 
 def drift():
     return random.uniform(10,30)
@@ -90,6 +91,14 @@ def select_challenge_2(x):
 def start_challenge(im):
     x,y=eventparser.find_start_button(im)
     tap(x+drift(),y+drift())
+
+def swipe_playerlist():
+    swipe(1638,933+drift(),-1508,5000)
+    time.sleep(3)
+    im=screenshot.pull_screenshot()
+    p=eventparser.is_line(im,1347,1654,906,1014,5,5,5,20)
+    time.sleep(2)
+    return (not p)
 
 def anykey():
     tap(random.uniform(100,1000),random.uniform(100,1000))

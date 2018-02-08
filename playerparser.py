@@ -1,13 +1,14 @@
 from PIL import Image
 from eventparser import pixel_match
 from tess import tess
+import doevent
+from common import screenshot
 
 class name_parser:
     def __init__(self,im):
         self.im=im
     def parse(self,loc):
         x,y=loc
-        print(x,y)
         '''
         fangang:
         95 1027
@@ -87,7 +88,7 @@ def getdigit(x):
 def count_flower(im,startx,starty):
     count=0
     x=startx
-    while not pixel_match(im,x,starty,255,255,255,10):
+    while x<1920 and (not pixel_match(im,x,starty,255,255,255,90)):
         if is_flower(im,x,starty):
             count+=1
             if count==1:
@@ -106,12 +107,9 @@ def parse_level(im,x,y,tesser):
     tesser.exec_tess()
     return getdigit(tesser.getresult())
 
-def parse_player(im,tesser,starty=1027,echo=False):
-    flower=[]
-    level=[]
-    name=[]
-    locator=[]
+def parse_player(im,tesser,flower=[],level=[],name=[],locator=[],starty=1027,echo=False):
     count=0
+    intindex=len(flower)
     x=50
     while x<1800 and count<9:
         fc,x1,x2=count_flower(im,x,starty)
@@ -123,12 +121,21 @@ def parse_player(im,tesser,starty=1027,echo=False):
             locator.append((x1,starty))
         x+=1
     f=name_parser(im)
-    for i in range(0,count):
+    for i in range(intindex,intindex+count):
         name.append(f.parse(locator[i]))
     del f
     if echo:
-        print ([flower,level,name,locator])
+        return (flower,level,name,locator)
 
 def exec_parse(im):
+    flower=[]
+    level=[]
+    name=[]
+    locator=[]
     tesser=init_tess()
-    parse_player(im,tesser,echo=True)
+    p=True
+    while p==True:
+        flower,level,name,locator=parse_player(im,tesser,flower,level,name,locator,echo=True)
+        p=doevent.swipe_playerlist()
+        im=screenshot.pull_screenshot()
+    print(flower,level,name,locator)

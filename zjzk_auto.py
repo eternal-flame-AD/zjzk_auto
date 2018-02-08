@@ -10,6 +10,7 @@ from common import screenshot
 import eventparser
 import doevent
 import intmenu
+import playerparser
 
 def dump_eventparser(im):
     print('walkshop: ',eventparser.find_walkshop(im))
@@ -24,6 +25,8 @@ def dump_eventparser(im):
     print('mode_selection: ',eventparser.in_mode_selection(im))
     print('challenge_selection: ',eventparser.in_challenge_selection(im))
     print('player_selection: ',eventparser.in_player_selection(im))
+    if eventparser.in_player_selection(im):
+        playerparser.exec_parse(im)
 
 def do_screenshot():
     global need_resize,need_rotate,want_main_menu
@@ -104,7 +107,7 @@ def main():
     softchange=False
     init()
     im=do_screenshot()
-    #im.save("temp.png")
+    im.save("temp.png")
     dump_eventparser(im)
     mode,chal1,chal2=ask_chal()
     chal1_selected=False
