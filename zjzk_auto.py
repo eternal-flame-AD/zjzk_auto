@@ -26,16 +26,15 @@ def dump_eventparser(im):
 
 def do_screenshot():
     global need_resize,need_rotate,want_main_menu
-    screenshot.pull_screenshot()
     try:
-        im = Image.open('./autojump.png')
+        im = screenshot.pull_screenshot()
         success=True
     except KeyboardInterrupt:
         want_main_menu=True
     except:
+        print("Fail fallback...")
         success=False
         try:
-            screenshot.pull_screenshot()
             im = Image.open('./autojump.png')
             success=True
         except KeyboardInterrupt:
@@ -57,8 +56,7 @@ def do_screenshot():
 def init():
     global height,width,need_resize,need_rotate
     screenshot.check_screenshot()
-    screenshot.pull_screenshot()
-    im = Image.open('./autojump.png')
+    im=screenshot.pull_screenshot()
     width,height=im.size
     need_rotate=False
     need_resize=False
