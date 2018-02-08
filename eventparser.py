@@ -17,8 +17,6 @@ def pixel_match(im,target_x,target_y,target_r,target_g,target_b,diff,debug=False
         return False
 
 def find_walkshop(im):
-    if not in_fight(im):
-        return False
     count=0
     for x in range(0,1920):
         for y in range(400,800):

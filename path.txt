@@ -1,0 +1,8 @@
+C:\Program Files (x86)\Tesseract-OCR
+C:\Program Files\Tesseract-OCR
+D:\Program Files (x86)\Tesseract-OCR
+D:\Program Files\Tesseract-OCR
+E:\Program Files (x86)\Tesseract-OCR
+C:\Program Files\Tesseract-OCR
+D:\Program Files (x86)\Tesseract-OCR
+D:\Program Files\Tesseract-OCR
