@@ -89,7 +89,7 @@ def ask_chal():
 
 def main():
     want_main_menu=False
-    debug=False
+    debug=True
     softchange=False
     init()
     im=do_screenshot()

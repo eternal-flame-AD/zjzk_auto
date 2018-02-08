@@ -71,7 +71,7 @@ def in_main(im):
 
 def in_mode_selection(im):
     for y in range(170,220):
-        if is_line(im,350,500,y,y) and is_line(im,350,500,y+3,y+3) and (not is_line(im,350,500,y+1,y+1)) and (not is_line(im,350,500,y+2,y+2)):
+        if is_line(im,100,260,y,y) and is_line(im,480,660,y+3,y+3) and (not is_line(im,100,260,y+1,y+1)) and (not is_line(im,480,660,y+2,y+2)):
             return True
     return False
 

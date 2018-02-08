@@ -46,13 +46,13 @@ def enter_mode_selection():
 
 def select_mode(x):
     if x==1:
-        tap(354+drift(),325+drift())
+        tap(100+drift(),325+drift())
     elif x==2:
-        tap(714+drift(),337+drift())
+        tap(474+drift(),337+drift())
     elif x==3:
-        tap(1122+drift(),337+drift())
+        tap(846+drift(),337+drift())
     elif x==4:
-        tap(1488+drift(),447+drift())
+        tap(1592+drift(),447+drift())
     else:
         raise RuntimeError("Illegal mode!")
 
