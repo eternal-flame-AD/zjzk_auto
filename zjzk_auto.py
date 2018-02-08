@@ -14,7 +14,8 @@ import intmenu
 def dump_eventparser(im):
     print('walkshop: ',eventparser.find_walkshop(im))
     print('loading: ',eventparser.in_loading_screen(im))
-    print('main: ',eventparser.in_main(im))
+    print('in_main: ',eventparser.in_main(im))
+    print('in_benzhen: ',eventparser.in_benzhen(im))
     print('in_war: ',eventparser.in_fight(im))
     print('win_presplash: ',eventparser.in_win_presplash(im))
     print('win_presplash_ready: ',eventparser.win_presplash_ready(im))
@@ -103,6 +104,7 @@ def main():
     softchange=False
     init()
     im=do_screenshot()
+    #im.save("temp.png")
     dump_eventparser(im)
     mode,chal1,chal2=ask_chal()
     chal1_selected=False
@@ -118,6 +120,8 @@ def main():
                     print("WALKSHOP!!!!!!")
             elif eventparser.in_loading_screen(im):
                 continue
+            elif eventparser.in_benzhen(im):
+                doevent.enter_mode_selection()
             elif eventparser.in_main(im):
                 doevent.enter_mode_selection()
             elif eventparser.in_mode_selection(im):

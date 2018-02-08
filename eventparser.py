@@ -66,6 +66,9 @@ def find_turningpoint(im,x1,x2,y1,y2,r,g,b,diff,minx,miny,xdelta=-1,ydelta=-1):
 def in_fight(im):
     return (not is_line(im,41,68,41,70,188,163,88,80)) and is_line(im,41,48,41,70,188,163,88,80) and is_line(im,61,68,41,70,188,163,88,80)
 
+def in_benzhen(im):
+    return pixel_match(im,668,65,174,54,37,20) and pixel_match(im,672,43,209,148,20,20) and pixel_match(im,668,51,11,0,0,10)
+
 def in_main(im):
     return pixel_match(im,55,66,96,84,105,6) and pixel_match(im,100,64,249,225,198,6)
 

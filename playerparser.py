@@ -2,6 +2,29 @@ from PIL import Image
 from eventparser import pixel_match
 from tess import tess
 
+class name_parser:
+    def __init__(self,im):
+        self.im=im
+    def parse(self,loc):
+        x,y=loc
+        print(x,y)
+        '''
+        baoyu:
+        95 1027
+        59 42 27 @100 901
+        127 1013 195 57 58
+        '''
+        if pixel_match(self.im,x+5,y-126,59,42,27,25) and pixel_match(self.im,x+32,y-14,189,58,59,15):
+            return "baoyu"
+        '''
+        mengxia:
+        ref 273 1027
+        '''
+        if pixel_match(self.im,x-12,y-54,47,47,47,10) and pixel_match(self.im,x+97,y-19,27,45,63,20):
+            return "mengxia"
+        return "WILL ADD IN FUTURE"
+
+
 def init_tess():
     tesser=tess()
     tesser.add_language("eng")
@@ -19,7 +42,6 @@ def getdigit(x):
             new=new*10+int(digi)
     return new
 
-
 def count_flower(im,startx,starty):
     count=0
     x=startx
@@ -32,7 +54,6 @@ def count_flower(im,startx,starty):
                 x+=1
         x+=1
     if count>0:
-        print(startx)
         return (count,startx,x)
     else:
         return (0,-1,-1)
@@ -43,13 +64,11 @@ def parse_level(im,x,y,tesser):
     tesser.exec_tess()
     return getdigit(tesser.getresult())
 
-def parse_name(im,x,y):
-    return "WILL ADD IN FUTURE"
-
 def parse_player(im,tesser,starty=1027,echo=False):
     flower=[]
     level=[]
     name=[]
+    locator=[]
     count=0
     x=50
     while x<1800 and count<9:
@@ -57,12 +76,16 @@ def parse_player(im,tesser,starty=1027,echo=False):
         if fc!=0:
             x=x2
             count+=1
-            name.append(parse_name(im,x1,starty))
             level.append(parse_level(im,x1,starty,tesser))
             flower.append(fc)
+            locator.append((x1,starty))
         x+=1
+    f=name_parser(im)
+    for i in range(0,count):
+        name.append(f.parse(locator[i]))
+    del f
     if echo:
-        print ([flower,level,name])
+        print ([flower,level,name,locator])
 
 
 tesser=init_tess()
