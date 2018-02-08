@@ -51,7 +51,7 @@ class name_parser:
         daji
         ref 1166 1027
         '''
-        if pixel_match(self.im,x-16,y-16,27,35,62,15,debug=True) and pixel_match(self.im,x+58,y-20,27,35,62,15,debug=True):
+        if pixel_match(self.im,x-16,y-16,27,35,62,15) and pixel_match(self.im,x+58,y-20,27,35,62,15):
             return "daji"
         '''
         francais
@@ -66,8 +66,6 @@ class name_parser:
         if pixel_match(self.im,x+68,y-16,198,207,218,15) and pixel_match(self.im,x+15,y-22,42,49,70,15):
             return "tangshizi"
         return "WILL ADD IN FUTURE"
-
-
 
 def init_tess():
     tesser=tess()
@@ -131,7 +129,6 @@ def parse_player(im,tesser,starty=1027,echo=False):
     if echo:
         print ([flower,level,name,locator])
 
-
-tesser=init_tess()
-im=Image.open("playerparse.png",mode="r")
-parse_player(im,tesser,echo=True)
+def exec_parse(im):
+    tesser=init_tess()
+    parse_player(im,tesser,echo=True)
