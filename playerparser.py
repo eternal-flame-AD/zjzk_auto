@@ -9,20 +9,28 @@ class name_parser:
         x,y=loc
         print(x,y)
         '''
-        baoyu:
+        fangang:
         95 1027
         59 42 27 @100 901
         127 1013 195 57 58
         '''
         if pixel_match(self.im,x+5,y-126,59,42,27,25) and pixel_match(self.im,x+32,y-14,189,58,59,15):
-            return "baoyu"
+            return "fangang"
         '''
         mengxia:
         ref 273 1027
         '''
         if pixel_match(self.im,x-12,y-54,47,47,47,10) and pixel_match(self.im,x+97,y-19,27,45,63,20):
             return "mengxia"
+        '''
+        guangguo:
+        ref 452 1027
+        '''
+        if pixel_match(self.im,x-23,y-102,203,176,104,20) and pixel_match(self.im,x+53,y-103,106,92,106,20):
+            return "guangguo"
+
         return "WILL ADD IN FUTURE"
+
 
 
 def init_tess():
