@@ -28,7 +28,43 @@ class name_parser:
         '''
         if pixel_match(self.im,x-23,y-102,203,176,104,20) and pixel_match(self.im,x+53,y-103,106,92,106,20):
             return "guangguo"
-
+        '''
+        xue(snow):
+        ref 630 1027
+        '''
+        if pixel_match(self.im,x-4,y-106,229,229,226,15) and pixel_match(self.im,x+54,y-25,74,74,74,15):
+            return "xue(snow)"
+        '''
+        bajiao
+        ref 809 1027
+        '''
+        if pixel_match(self.im,x-10,y-129,26,27,27,15) and pixel_match(self.im,x+26,y-115,177,199,193,20):
+            return "bajiao"
+        
+        '''
+        mi
+        ref 987 1027
+        '''
+        if pixel_match(self.im,x+4,y-40,232,231,219,15) and pixel_match(self.im,x+79,y-20,140,48,48,30):
+            return "mi"
+        '''
+        daji
+        ref 1166 1027
+        '''
+        if pixel_match(self.im,x-16,y-16,27,35,62,15,debug=True) and pixel_match(self.im,x+58,y-20,27,35,62,15,debug=True):
+            return "daji"
+        '''
+        francais
+        ref 1344 1027
+        '''
+        if pixel_match(self.im,x-17,y-45,254,241,238,15) and pixel_match(self.im,x-5,y-36,42,43,42,15):
+            return "francais"
+        '''
+        tangshizi
+        ref 1523 1027
+        '''
+        if pixel_match(self.im,x+68,y-16,198,207,218,15) and pixel_match(self.im,x+15,y-22,42,49,70,15):
+            return "tangshizi"
         return "WILL ADD IN FUTURE"
 
 
