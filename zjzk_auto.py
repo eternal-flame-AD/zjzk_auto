@@ -174,5 +174,8 @@ def main():
                 chal1_selected=False
                 chal2_selected=False
                 softchange=True
+            elif op==4:
+                do_screenshot().save('screenshot.png')
+                print("screenshot taken")
         continue
 main()

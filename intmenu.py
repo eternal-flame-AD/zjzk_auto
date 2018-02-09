@@ -1,9 +1,10 @@
 def show_menu():
-    print("===Main menu===\n" 
+    print("\n===Main menu===\n" 
     "1-STOP\n"
     "2-SOFT CHANGE CHALLENGE\n"
-    "3-CONTINUE\n")
+    "3-CONTINUE\n"
+    "4-SAVE SCREENSHOT\n")
     op=0
-    while (op<1) or (op>3):
+    while not (op in range(1,5)):
         op=int(input("INPUT CHOICE:"))
     return op
