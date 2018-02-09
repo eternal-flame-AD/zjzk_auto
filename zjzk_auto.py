@@ -43,7 +43,7 @@ def do_screenshot():
         except KeyboardInterrupt:
             want_main_menu=True
         except:
-            raise RuntimeError("screenshot_error")
+            im=do_screenshot()
     if success:
         if need_rotate:
             print("Rotating...",end=" ")
