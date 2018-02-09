@@ -41,6 +41,9 @@ def swipe(px,py,deltax,time=1000,need_resize=False,width=1,height=1,debug=False)
 def rematch():
     tap(1030+drift(),873+drift())
 
+def enter_somethinghappened():
+    tap(1323+drift(),873+drift())
+
 def enter_mode_selection():
     tap(1743+drift(),901+drift())
 

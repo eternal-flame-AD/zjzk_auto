@@ -144,7 +144,9 @@ def main():
                 x=eventparser.determine_win_type(im)
                 if softchange or (x==2):
                     doevent.go_back()
-                elif x>=0:
+                elif x==1:
+                    doevent.enter_somethinghappened()
+                elif x==0:
                     doevent.rematch()
             elif eventparser.in_player_selection(im):
                 doevent.start_war()

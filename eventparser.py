@@ -82,7 +82,7 @@ def in_challenge_selection(im):
     return find_line(im,50,1900,150,250,86,198,184,3,900,'x')
 
 def find_challenge_selection_corner(im):
-    return find_turningpoint(im,900,1900,180,220,86,198,184,3,900,200,-1,1)
+    return find_turningpoint(im,900,1900,180,280,86,198,184,3,900,200,-1,1)
 
 def find_start_button(im):
     x,y=find_challenge_selection_corner(im)
@@ -109,10 +109,10 @@ def determine_win_type(im):
         1-something happened
         2-after something happened
     """
+    if pixel_match(im,1396,926,178,175,32,10):
+        return 1
     if pixel_match(im,1166,917,244,229,134,10):
         return 0
-    if pixel_match(im,1266,926,178,175,32,10):
-        return 1
     if pixel_match(im,1672,942,210,125,74,6):
         return 2
     return -1
