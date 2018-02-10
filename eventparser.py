@@ -6,7 +6,7 @@ def tess_init():
         tesser=tess()
         tesser.set_mode("line")
         tesser.set_chars("0123456789/")
-        tesser.add_language("eng")
+        tesser.add_language("zjzk_level")
         return True
     except:
         return False
