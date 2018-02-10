@@ -1,6 +1,7 @@
 # zjzk_auto
 ## Description
 老夫肝zjzk肝不动了于是一时起了兴致写了这个python脚本（bushi
+
 当前支持自动walkshop检测，自动完成突发事件，自动检测满级人数并达到阈值后停止
 ## Usage
 从源码运行：
