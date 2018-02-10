@@ -136,7 +136,7 @@ def max_full_count(s):
     count=0
     for level in s:
         try:
-            if level[0]==level[1]:
+            if level[0]==0 and level[1]==0:
                 count+=1
         except:
             pass
