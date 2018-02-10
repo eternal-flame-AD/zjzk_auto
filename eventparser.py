@@ -56,7 +56,7 @@ def parse_player_level(im,xmin,xmax,yref=738,ymin=728,ymax=748):
 
 def parse_winner_location(im,xmin,xmax,yref=750):
     for x in range(xmin,xmax):
-        if pixel_match(im,x,yref,160,115,42,40) and pixel_match(im,x+12,yref,226,190,88,40):
+        if pixel_match(im,x,yref,160,115,42,50) and pixel_match(im,x+12,yref,226,190,88,50):
             return x-2
 
 def parse_level(im):
