@@ -12,6 +12,7 @@ import doevent
 import intmenu
 
 def dump_eventparser(im):
+    print("================================")
     print('walkshop: ',eventparser.find_walkshop(im))
     print('loading: ',eventparser.in_loading_screen(im))
     print('in_main: ',eventparser.in_main(im))
@@ -24,6 +25,7 @@ def dump_eventparser(im):
     print('mode_selection: ',eventparser.in_mode_selection(im))
     print('challenge_selection: ',eventparser.in_challenge_selection(im))
     print('player_selection: ',eventparser.in_player_selection(im))
+    print("================================")
 
 def do_screenshot():
     global need_resize,need_rotate,want_main_menu
@@ -102,10 +104,17 @@ def main():
     debug=False
     softchange=False
     init()
+    if not eventparser.tess_init():
+        print("Tesseract INIT failed!")
+        print("NO LEVEL DETECTION support!")
+        level_detection_on=False
+    else:
+        level_detection_on=True
     im=do_screenshot()
-    #im.save("temp.png")
+    im.save("temp.png")
     dump_eventparser(im)
     mode,chal1,chal2=ask_chal()
+    max_full_level_count=int(input('Max full level count?'))
     chal1_selected=False
     chal2_selected=False
     failcount=0
@@ -115,10 +124,9 @@ def main():
             if debug:
                 dump_eventparser(im)
             if eventparser.in_fight(im):
-                if eventparser.find_walkshop(im):
-                    print("WALKSHOP!!!!!!")
+                pass
             elif eventparser.in_loading_screen(im):
-                continue
+                pass
             elif eventparser.in_benzhen(im):
                 doevent.enter_mode_selection()
             elif eventparser.in_main(im):
@@ -139,9 +147,16 @@ def main():
                     doevent.start_challenge(im)
             elif eventparser.in_win_presplash(im):
                 if eventparser.win_presplash_ready(im):
+                    if level_detection_on:
+                        result=eventparser.parse_level(im)
+                        print(result,'Full level count:',eventparser.max_full_count(result))
+                        if eventparser.max_full_count(result)>max_full_level_count:
+                            raise SystemExit("Full Level count threshold reached, Stopping...")
                     doevent.anykey()
             elif eventparser.in_win_splash(im):
                 x=eventparser.determine_win_type(im)
+                if eventparser.find_walkshop(im):
+                    print("walkshop")
                 if softchange or (x==2):
                     doevent.go_back()
                 elif x==1:
@@ -152,6 +167,7 @@ def main():
                 doevent.start_war()
             else:
                 failcount+=1
+                #print("Failed parse. Count=",failcount)
                 if failcount==20:
                     dump_eventparser(im)
                     im.close()

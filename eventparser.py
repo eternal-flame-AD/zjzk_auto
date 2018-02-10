@@ -1,3 +1,78 @@
+from tess import tess
+
+def tess_init():
+    global tesser
+    try:
+        tesser=tess()
+        tesser.set_mode("line")
+        tesser.set_chars("0123456789/")
+        tesser.add_language("eng")
+        return True
+    except:
+        return False
+
+def to_black_and_white(im):
+    w,h=im.size
+    for x in range(0,w):
+        for y in range(0,h):
+            if pixel_match(im,x,y,255,255,255,320) and is_grey(im,x,y,10):
+                im.putpixel((x,y),(255,255,255,255))
+            else:
+                im.putpixel((x,y),(0,0,0,0))
+    return im
+
+def exp_refine(s):
+    pos=0
+    maxpos=len(s)-1
+    try:
+        while not (s[pos]>='0' and s[pos]<='9'):
+            pos+=1
+        start1=pos
+        while (s[pos]>='0' and s[pos]<='9'):
+            pos+=1
+        exp1=int(s[start1:pos])
+        while not (s[pos]>='0' and s[pos]<='9'):
+            pos+=1        
+        start2=pos
+        while pos!=maxpos+1 and (s[pos]>='0' and s[pos]<='9'):
+            pos+=1
+        exp2=int(s[start2:pos])
+        return exp1,exp2
+    except:
+        return ('failed to parse... Raw result:'+s)
+
+def parse_player_level(im,xmin,xmax,yref=738,ymin=728,ymax=748):
+    global tesser
+    lastx=0
+    for x in range(xmin,xmax):
+        if pixel_match(im,x,yref,255,255,255,150):
+            lastx=x
+    lastx+=10
+    im1=im.crop((xmin,ymin,lastx,ymax))
+    im1=to_black_and_white(im1)
+    tesser.load_img(im1)
+    tesser.exec_tess()
+    return exp_refine(tesser.getresult())
+
+def parse_winner_location(im,xmin,xmax,yref=750):
+    for x in range(xmin,xmax):
+        if pixel_match(im,x,yref,160,115,42,40) and pixel_match(im,x+12,yref,226,190,88,40):
+            return x-2
+
+def parse_level(im):
+    pos1=parse_winner_location(im,380,750)
+    pos2=parse_winner_location(im,800,980)
+    pos3=parse_winner_location(im,1100,1400)
+    return parse_player_level(im,pos1,pos1+180),parse_player_level(im,pos2,pos2+180),parse_player_level(im,pos3,pos3+180)
+    
+def is_grey(im,x,y,diff):
+    pixel=im.getpixel((x,y))
+    r=pixel[0]
+    g=pixel[1]
+    b=pixel[2]
+    if abs(r-g)+abs(g-b)+abs(b-r)<=diff:
+        return True
+    return False
 
 def pixel_match(im,target_x,target_y,target_r,target_g,target_b,diff,debug=False):
     """
@@ -17,16 +92,7 @@ def pixel_match(im,target_x,target_y,target_r,target_g,target_b,diff,debug=False
         return False
 
 def find_walkshop(im):
-    count=0
-    for x in range(0,1920):
-        for y in range(400,800):
-            if pixel_match(im,x,y,87,181,161,3):
-                count+=1
-    if count>5:
-        fn="WALKSHOP.png"
-        im.save(fn)
-        return True
-    return False
+    return pixel_match(im,1617,817,251,236,207,50)
 
 def is_line(im,x1,x2,y1,y2,r=0,g=0,b=0,diff=0):
     if x1>x2:
@@ -66,6 +132,16 @@ def find_turningpoint(im,x1,x2,y1,y2,r,g,b,diff,minx,miny,xdelta=-1,ydelta=-1):
 def in_fight(im):
     return (not is_line(im,41,68,41,70,188,163,88,80)) and is_line(im,41,48,41,70,188,163,88,80) and is_line(im,61,68,41,70,188,163,88,80)
 
+def max_full_count(s):
+    count=0
+    for level in s:
+        try:
+            if level[0]==level[1]:
+                count+=1
+        except:
+            pass
+    return count
+
 def in_benzhen(im):
     return pixel_match(im,668,65,174,54,37,20) and pixel_match(im,672,43,209,148,20,20) and pixel_match(im,668,51,11,0,0,10)
 
@@ -74,7 +150,7 @@ def in_main(im):
 
 def in_mode_selection(im):
     for y in range(170,220):
-        if is_line(im,100,260,y,y,diff=10) and is_line(im,480,660,y+3,y+3,diff=10) and (not is_line(im,100,260,y+1,y+1)) and (not is_line(im,480,660,y+2,y+2)):
+        if is_line(im,100,260,y,y,diff=10) and is_line(im,480,660,y+3,y+3,diff=10) and is_line(im,100,260,y+1,y+1,160,126,88,90) and (not is_line(im,480,660,y+2,y+2)):
             return True
     return False
 
