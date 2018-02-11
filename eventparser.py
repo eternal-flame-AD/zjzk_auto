@@ -61,8 +61,8 @@ def parse_winner_location(im,xmin,xmax,yref=750):
 
 def parse_level(im):
     pos1=parse_winner_location(im,380,750)
-    pos2=parse_winner_location(im,800,980)
-    pos3=parse_winner_location(im,1100,1400)
+    pos2=parse_winner_location(im,pos1+233,1000)
+    pos3=parse_winner_location(im,pos2+233,1600)
     return parse_player_level(im,pos1,pos1+180),parse_player_level(im,pos2,pos2+180),parse_player_level(im,pos3,pos3+180)
     
 def is_grey(im,x,y,diff):

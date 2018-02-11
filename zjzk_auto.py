@@ -70,6 +70,7 @@ def init():
             height=width-height
             width=width-height
     if (width!=1920) or (height!=1080):
+            raise RuntimeError("ERR: Unsupported resolution, pls use 1920x1080")
             print("Need resize!")
             need_resize=True
     im.close()
@@ -111,7 +112,7 @@ def main():
     else:
         level_detection_on=True
     im=do_screenshot()
-    #im.save("temp.png")
+    im.save("temp.png")
     dump_eventparser(im)
     mode,chal1,chal2=ask_chal()
     max_full_level_count=int(input('Max full level count?'))
@@ -149,9 +150,12 @@ def main():
                 if eventparser.win_presplash_ready(im):
                     if level_detection_on:
                         result=eventparser.parse_level(im)
-                        print(result,'Full level count:',eventparser.max_full_count(result))
-                        if eventparser.max_full_count(result)>max_full_level_count:
-                            raise SystemExit("Full Level count threshold reached, Stopping...")
+                        if result==-1:
+                            print("Failed to locate player...Retrying next time")
+                        else:
+                            print(result,'Full level count:',eventparser.max_full_count(result))
+                            if eventparser.max_full_count(result)>max_full_level_count:
+                                raise SystemExit("Full Level count threshold reached, Stopping...")
                     doevent.anykey()
             elif eventparser.in_win_splash(im):
                 x=eventparser.determine_win_type(im)
