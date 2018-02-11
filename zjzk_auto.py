@@ -197,5 +197,8 @@ def main():
             elif op==4:
                 do_screenshot().save('screenshot.png')
                 print("screenshot taken")
+            elif op==5:
+                max_full_level_count=int(input('Max full level count?'))
+                print('OK')
         continue
 main()

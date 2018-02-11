@@ -21,7 +21,21 @@ def to_black_and_white(im):
                 im.putpixel((x,y),(0,0,0,0))
     return im
 
+def seven_error_postprocess(s):
+    res=""
+    for pos in range(0,len(s)-1):
+        if (s[pos:pos+1]==" 7") or (s[pos:pos+1]=="7 "):
+            res+='/'
+        else:
+            res=s[pos]
+    return res
+
+
 def exp_refine(s):
+    try:
+        s.index("/")
+    except ValueError:
+        s=seven_error_postprocess(s)
     pos=0
     maxpos=len(s)-1
     try:
@@ -63,7 +77,10 @@ def parse_level(im):
     pos1=parse_winner_location(im,380,750)
     pos2=parse_winner_location(im,pos1+233,1000)
     pos3=parse_winner_location(im,pos2+233,1600)
-    return parse_player_level(im,pos1,pos1+180),parse_player_level(im,pos2,pos2+180),parse_player_level(im,pos3,pos3+180)
+    try:
+        return parse_player_level(im,pos1,pos1+180),parse_player_level(im,pos2,pos2+180),parse_player_level(im,pos3,pos3+180)
+    except:
+        return -1
     
 def is_grey(im,x,y,diff):
     pixel=im.getpixel((x,y))
