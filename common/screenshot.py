@@ -53,7 +53,7 @@ def check_screenshot():
         except Exception:
             pass
     if SCREENSHOT_WAY < 0:
-        print('暂不支持当前设备')
+        print('暂不支持当前设备,请检查手机adb是否已经打开并授权')
         sys.exit()
     try:
         im=pull_screenshot()
