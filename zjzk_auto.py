@@ -112,7 +112,7 @@ def main():
     else:
         level_detection_on=True
     im=do_screenshot()
-    im.save("temp.png")
+    #im.save("temp.png")
     dump_eventparser(im)
     mode,chal1,chal2=ask_chal()
     max_full_level_count=int(input('Max full level count?'))
