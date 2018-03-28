@@ -30,7 +30,6 @@ def seven_error_postprocess(s):
             res=s[pos]
     return res
 
-
 def exp_refine(s):
     try:
         s.index("/")
@@ -70,7 +69,7 @@ def parse_player_level(im,xmin,xmax,yref=738,ymin=728,ymax=748):
 
 def parse_winner_location(im,xmin,xmax,yref=750):
     for x in range(xmin,xmax):
-        if pixel_match(im,x,yref,160,115,42,50) and pixel_match(im,x+12,yref,226,190,88,50):
+        if pixel_match(im,x,yref,160,115,42,50) and pixel_match(im,x+12,yref,15,10,6,30):
             return x-2
 
 def parse_level(im):
@@ -109,7 +108,7 @@ def pixel_match(im,target_x,target_y,target_r,target_g,target_b,diff,debug=False
         return False
 
 def find_walkshop(im):
-    return pixel_match(im,1617,817,251,236,207,50)
+    return pixel_match(im,1617,865,251,236,207,50)
 
 def is_line(im,x1,x2,y1,y2,r=0,g=0,b=0,diff=0):
     if x1>x2:
@@ -182,7 +181,7 @@ def find_start_button(im):
     return (x-200,y+469)
 
 def in_player_selection(im):
-    if is_line(im,620,740,362,362,182,163,114,100) and is_line(im,900,1020,362,362,182,163,114,100) and is_line(im,900,1020,362,362,182,163,114,100) and (not is_line(im,620,1020,362,362,182,163,114,15)):
+    if is_line(im,10,580,240,270,38,30,27,15) and is_line(im,5,500,300,305,210,210,210,100):
         return True
     return False
 
@@ -202,13 +201,13 @@ def determine_win_type(im):
         1-something happened
         2-after something happened
     """
-    if pixel_match(im,1396,926,178,175,32,10):
+    if pixel_match(im,1420,925,137,137,29,10):
         return 1
-    if pixel_match(im,1166,917,244,229,134,10):
+    if pixel_match(im,1133,923,241,207,139,10):
         return 0
-    if pixel_match(im,1672,942,210,125,74,6):
+    if pixel_match(im,1420,925,64,50,33,10) and pixel_match(im,1691,998,183,108,44,30):
         return 2
     return -1
 
 def in_win_splash(im):
-    return pixel_match(im,924,177,255,181,68,3) and pixel_match(im,888,185,255,181,68,3) and pixel_match(im,906,173,8,7,3,6)
+    return pixel_match(im,923,133,255,181,68,6) and pixel_match(im,906,173,11,9,4,6)

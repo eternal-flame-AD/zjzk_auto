@@ -105,12 +105,14 @@ def main():
     debug=False
     softchange=False
     init()
+    print("adb init complete")
     if not eventparser.tess_init():
         print("Tesseract INIT failed!")
         print("NO LEVEL DETECTION support!")
         level_detection_on=False
     else:
         level_detection_on=True
+        print("tesseract init complete")
     im=do_screenshot()
     #im.save("temp.png")
     dump_eventparser(im)

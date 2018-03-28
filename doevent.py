@@ -39,10 +39,10 @@ def swipe(px,py,deltax,time=1000,need_resize=False,width=1,height=1,debug=False)
     subprocess.Popen(cmd, startupinfo=si)
 
 def rematch():
-    tap(1030+drift(),873+drift())
+    tap(1022+drift(),931+drift())
 
 def enter_somethinghappened():
-    tap(1323+drift(),873+drift())
+    tap(1310+drift(),931+drift())
 
 def enter_mode_selection():
     tap(1743+drift(),901+drift())
@@ -98,7 +98,7 @@ def anykey():
     tap(random.uniform(100,1000),random.uniform(100,1000))
 
 def go_back():
-    tap(1612+drift(),871+drift())
+    tap(1612+drift(),931+drift())
 
 def start_war():
     tap(1768+drift(),894+drift())
