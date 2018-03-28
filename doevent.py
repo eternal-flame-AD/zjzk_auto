@@ -42,7 +42,9 @@ def rematch():
     tap(1022+drift(),931+drift())
 
 def enter_somethinghappened():
+    global someThingHappened
     tap(1310+drift(),931+drift())
+    someThingHappened=True
 
 def enter_mode_selection():
     tap(1743+drift(),901+drift())

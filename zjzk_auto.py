@@ -101,6 +101,7 @@ def ask_chal():
     return mode,chal1,chal2
 
 def main():
+    global someThingHappened
     want_main_menu=False
     debug=False
     softchange=False
@@ -120,6 +121,7 @@ def main():
     max_full_level_count=int(input('Max full level count?'))
     chal1_selected=False
     chal2_selected=False
+    someThingHappened=False
     failcount=0
     while True:
         try:
@@ -140,14 +142,18 @@ def main():
                 chal2_selected=False
                 doevent.select_mode(mode)
             elif eventparser.in_challenge_selection(im):
-                if not chal1_selected:
-                    chal1_selected=True
-                    doevent.select_challenge_1(chal1,mode)
-                elif not chal2_selected:
-                    chal2_selected=True
-                    doevent.select_challenge_2(chal2)
-                else:
+                if someThingHappened:
+                    someThingHappened=False
                     doevent.start_challenge(im)
+                else:
+                    if not chal1_selected:
+                        chal1_selected=True
+                        doevent.select_challenge_1(chal1,mode)
+                    elif not chal2_selected:
+                        chal2_selected=True
+                        doevent.select_challenge_2(chal2)
+                    else:
+                        doevent.start_challenge(im)
             elif eventparser.in_win_presplash(im):
                 if eventparser.win_presplash_ready(im):
                     if level_detection_on:
