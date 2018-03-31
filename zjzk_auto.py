@@ -101,7 +101,6 @@ def ask_chal():
     return mode,chal1,chal2
 
 def main():
-    global someThingHappened
     want_main_menu=False
     debug=False
     softchange=False
@@ -172,6 +171,7 @@ def main():
                 if softchange or (x==2):
                     doevent.go_back()
                 elif x==1:
+                    someThingHappened=True
                     doevent.enter_somethinghappened()
                 elif x==0:
                     doevent.rematch()
